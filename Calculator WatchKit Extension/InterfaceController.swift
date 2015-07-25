@@ -60,11 +60,14 @@ class InterfaceController: WKInterfaceController {
     }
     
     func processEquals() {
-        let infoDictionary = ["operand": operand1, "operand2": display, "operation": operation]
+        let infoDictionary = ["operand1": operand1, "operand2": display, "operation": operation]
         WKInterfaceController.openParentApplication(infoDictionary) {
             (replyDictionary, error) -> Void in
-            if let castedResponseDictionary = replyDictionary as? [String: Double], responseMessage = castedResponseDictionary["result"] {
+            if let castedResponseDictionary = replyDictionary as? [String: Double],
+                responseMessage = castedResponseDictionary["result"] {
                 self.displayLabel.setText("\(responseMessage)")
+            } else {
+                self.displayLabel.setText("\(error)")
             }
         }
     }
