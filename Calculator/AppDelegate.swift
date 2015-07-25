@@ -12,7 +12,22 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let calculatorBrain = CalculatorBrain();
+    
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        if let dictionary = userInfo as? [String: String] {
+            var operand1 = dictionary["operand1"]
+            var operand2 = dictionary["operand2"]
+            var operation = dictionary["operation"]
+            calculatorBrain.operand1 = (operand1! as NSString).doubleValue
+            calculatorBrain.operand2 = (operand2! as NSString).doubleValue
+            calculatorBrain.operation = operation!
+            
+            let result = calculatorBrain.calculate()
+            
+            reply(["result": result])
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
